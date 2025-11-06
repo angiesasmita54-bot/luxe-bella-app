@@ -29,22 +29,17 @@ yarn-error.log*
 # Vercel
 .vercel
 
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-
-# Prisma
-/prisma/migrations
-
-# Mobile
-mobile/node_modules/
-mobile/.expo/
-mobile/.expo-shared/
-mobile/dist/
+# Azure
+.azure/
 
 # IDE
-.idea/
 .vscode/
-*.swp
-*.swo
+.idea/
 
+# Deployment files
+deploy*.zip
+*.zip
+
+# Backup files
+*.bak
+*.bak2
