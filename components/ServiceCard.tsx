@@ -7,11 +7,11 @@ interface Service {
   id: string
   name: string
   description: string
-  benefits?: string
+  benefits?: string | null
   duration: number
   price: number
-  image?: string
-  category?: string
+  image?: string | null
+  category?: string | null
 }
 
 interface ServiceCardProps {

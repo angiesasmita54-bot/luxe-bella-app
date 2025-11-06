@@ -1,19 +1,30 @@
 import { prisma } from './prisma'
 import twilio from 'twilio'
 
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-)
+let twilioClient: ReturnType<typeof twilio> | null = null
+
+function getTwilioClient() {
+  if (!twilioClient) {
+    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
+      throw new Error('Twilio credentials not configured')
+    }
+    twilioClient = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    )
+  }
+  return twilioClient
+}
 
 export async function sendSMS(to: string, message: string) {
-  if (!process.env.TWILIO_PHONE_NUMBER) {
+  if (!process.env.TWILIO_PHONE_NUMBER || !process.env.TWILIO_ACCOUNT_SID) {
     console.warn('Twilio not configured, skipping SMS')
     return
   }
 
   try {
-    await twilioClient.messages.create({
+    const client = getTwilioClient()
+    await client.messages.create({
       body: message,
       from: process.env.TWILIO_PHONE_NUMBER,
       to,
@@ -24,13 +35,14 @@ export async function sendSMS(to: string, message: string) {
 }
 
 export async function sendWhatsApp(to: string, message: string) {
-  if (!process.env.TWILIO_WHATSAPP_NUMBER) {
+  if (!process.env.TWILIO_WHATSAPP_NUMBER || !process.env.TWILIO_ACCOUNT_SID) {
     console.warn('Twilio WhatsApp not configured, skipping WhatsApp')
     return
   }
 
   try {
-    await twilioClient.messages.create({
+    const client = getTwilioClient()
+    await client.messages.create({
       body: message,
       from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
       to: `whatsapp:${to}`,

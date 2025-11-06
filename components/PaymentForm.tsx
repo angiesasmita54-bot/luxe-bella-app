@@ -41,7 +41,7 @@ function PaymentFormContent({ amount, appointmentId, onSuccess }: PaymentFormPro
 
     if (paymentMethod === 'zelle') {
       // Handle Zelle payment - in production, integrate with Zelle API
-      toast.info('Zelle payment instructions will be sent to your email')
+      toast('Zelle payment instructions will be sent to your email', { icon: 'ℹ️' })
       try {
         await axios.post('/api/payments', {
           amount,

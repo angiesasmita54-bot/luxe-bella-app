@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { z } from 'zod'
 
 const paymentSchema = z.object({
@@ -28,6 +28,10 @@ export async function POST(request: NextRequest) {
 
     // If card payment, create Stripe payment intent
     if (data.method === 'CARD' && !paymentIntentId) {
+      if (!process.env.STRIPE_SECRET_KEY) {
+        return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 })
+      }
+      const stripe = getStripe()
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(data.amount * 100), // Convert to cents
         currency: 'usd',

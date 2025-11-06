@@ -1,0 +1,17 @@
+# Azure Deployment Configuration
+# Save your deployment details here
+
+Subscription ID: cb024244-d28f-4606-a82e-822da4aa62d9
+Subscription Name: Azure subscription 1
+Azure Account: angiesasmita54@gmail.com
+
+# Deployment Settings (update these as needed)
+Resource Group: luxe-bella-rg
+Location: eastus (or choose: westus2, westeurope, etc.)
+App Name: luxe-bella-app (must be globally unique - try: luxe-bella-yourname)
+Database Name: luxe-bella-db
+
+# After deployment, update these:
+# OAuth Redirect URIs:
+# - Google: https://YOUR-APP-NAME.azurewebsites.net/api/auth/callback/google
+# - Facebook: https://YOUR-APP-NAME.azurewebsites.net/api/auth/callback/facebook

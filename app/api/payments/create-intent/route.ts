@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../auth/[...nextauth]/route'
-import { stripe } from '@/lib/stripe'
+import { authOptions } from '@/lib/auth'
+import { getStripe } from '@/lib/stripe'
 import { z } from 'zod'
 
 const intentSchema = z.object({
@@ -20,6 +20,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const data = intentSchema.parse(body)
 
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 })
+    }
+    const stripe = getStripe()
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(data.amount * 100),
       currency: 'usd',

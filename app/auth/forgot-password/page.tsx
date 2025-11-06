@@ -23,14 +23,14 @@ export default function ForgotPasswordPage() {
       })
 
       if (response.data) {
-        // In development, if email is not configured, show the code
+        // Always show the code on screen
         if (response.data.code) {
           setDevCode(response.data.code)
-          toast.success(`Code generated: ${response.data.code} (email not configured)`, {
-            duration: 10000,
+          toast.success('Reset code generated!', {
+            duration: 5000,
           })
         } else {
-          toast.success('Reset code sent to your email!')
+          toast.success('Reset code generated!')
         }
         setCodeSent(true)
       }
@@ -52,15 +52,22 @@ export default function ForgotPasswordPage() {
               </svg>
             </div>
             <h1 className="text-3xl font-bold mb-2 text-primary font-heading">
-              Check Your Email
+              Your Reset Code
             </h1>
-            <p className="text-primary-700 text-sm">
-              We've sent a 6-digit code to <strong>{email}</strong>
+            <p className="text-primary-700 text-sm mb-4">
+              Use this 6-digit code to reset your password for <strong>{email}</strong>
             </p>
             {devCode && (
-              <div className="mt-4 p-4 bg-primary-50 border-2 border-primary rounded-lg">
-                <p className="text-sm text-primary-700 mb-2">Development Mode:</p>
-                <p className="text-2xl font-mono font-bold text-primary">{devCode}</p>
+              <div className="mt-6 mb-6 p-6 bg-primary-50 border-4 border-primary rounded-xl shadow-lg">
+                <p className="text-sm text-primary-700 mb-3 text-center font-semibold">Your Reset Code:</p>
+                <div className="bg-white p-6 rounded-lg border-2 border-primary-300">
+                  <p className="text-5xl font-mono font-bold text-primary text-center tracking-widest select-all">
+                    {devCode}
+                  </p>
+                </div>
+                <p className="text-xs text-primary-600 mt-3 text-center">
+                  This code expires in 15 minutes
+                </p>
               </div>
             )}
           </div>
@@ -102,7 +109,7 @@ export default function ForgotPasswordPage() {
             Forgot Password?
           </h1>
           <p className="text-primary-700 text-sm">
-            Enter your email address and we'll send you a 6-digit code to reset your password
+            Enter your email address and we'll generate a 6-digit code to reset your password
           </p>
         </div>
 

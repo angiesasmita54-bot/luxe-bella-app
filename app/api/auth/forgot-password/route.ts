@@ -70,26 +70,20 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Send email with code
+    // Try to send email with code (but always return code to display on screen)
     try {
       await sendPasswordResetCode(data.email, code)
     } catch (emailError) {
       console.error('Email sending error:', emailError)
-      // In development, if email is not configured, return the code
-      if (process.env.NODE_ENV === 'development') {
-        return NextResponse.json(
-          { 
-            message: 'Reset code generated (email not configured)',
-            code: code, // Only in development
-          },
-          { status: 200 }
-        )
-      }
-      throw new Error('Failed to send email')
+      // Continue even if email fails - we'll show code on screen
     }
 
+    // Always return the code to display on screen
     return NextResponse.json(
-      { message: 'If an account exists with this email, a reset code has been sent.' },
+      { 
+        message: 'Reset code generated. Please use the code shown below.',
+        code: code,
+      },
       { status: 200 }
     )
   } catch (error) {
