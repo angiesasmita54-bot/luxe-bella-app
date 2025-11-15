@@ -4,6 +4,9 @@ import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 
+// Force dynamic rendering to avoid build-time database access
+export const dynamic = 'force-dynamic'
+
 export default async function StaffPage() {
   const session = await getServerSession(authOptions)
   

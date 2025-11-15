@@ -41,6 +41,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3

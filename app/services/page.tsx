@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import { ServiceCard } from '@/components/ServiceCard'
 
+// Force dynamic rendering to avoid build-time database access
+export const dynamic = 'force-dynamic'
+
 export default async function ServicesPage() {
   const services = await prisma.service.findMany({
     where: { active: true },
