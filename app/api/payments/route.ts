@@ -5,6 +5,9 @@ import { prisma } from '@/lib/prisma'
 import { getStripe } from '@/lib/stripe'
 import { z } from 'zod'
 
+// Force dynamic rendering to avoid build-time issues
+export const dynamic = 'force-dynamic'
+
 const paymentSchema = z.object({
   appointmentId: z.string().optional(),
   amount: z.number().positive(),

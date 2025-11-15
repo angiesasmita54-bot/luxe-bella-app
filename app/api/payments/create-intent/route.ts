@@ -4,6 +4,9 @@ import { authOptions } from '@/lib/auth'
 import { getStripe } from '@/lib/stripe'
 import { z } from 'zod'
 
+// Force dynamic rendering to avoid build-time issues
+export const dynamic = 'force-dynamic'
+
 const intentSchema = z.object({
   amount: z.number().positive(),
   appointmentId: z.string().optional(),
